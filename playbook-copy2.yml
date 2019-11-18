@@ -1,0 +1,14 @@
+---
+- name: Copying files from controller to hosts
+  hosts: planetexpress:!farnsworth
+  gather_facts: yes   # default
+  vars:
+    kitkat: "just joking"
+
+  tasks:
+  - name: Copy gather fact var data into hosts
+    copy:
+      dest: ~/fry.txt
+      content: "{{ ansible_all_ipv4_addresses }}"
+      force: yes
+      backup: yes
