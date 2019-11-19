@@ -1,0 +1,12 @@
+---
+- name: Insall sl with yum
+  hosts: planetexpress
+
+  tasks:
+
+    - name: Install steam locomotive with yum
+      yum:
+        name: sl
+        state: present
+      become: yes
+

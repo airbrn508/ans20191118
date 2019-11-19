@@ -1,0 +1,21 @@
+---
+- name: Our first play
+  hosts: planetexpress
+
+  tasks:
+
+    - name: Install steam locomotive on CentOS machines
+      yum:
+        name: sl
+        state: present
+      become: yes
+      when: ansible_distribution == "CentOS"
+
+    - name: Install steam locomotive on Ubuntu machines
+      apt:
+        name: sl
+        state: present
+      become: yes
+      when: ansible_distribution == "Ubuntu"
+
+

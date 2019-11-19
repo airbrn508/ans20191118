@@ -1,0 +1,35 @@
+---
+- name: Platbook with tags
+  hosts: planetexpress
+
+  vars:
+    cargo1: "prixes for claw crane"
+    cargo2: "popcorn"
+    cargo3: "pillows"
+
+  vars_files:
+    - /home/student/ans/vars/vars.yml
+
+  tasks:
+    - name: "Deploy orders to the crew"
+      template:
+        src: /home/student/ans/templates/orders.txt.j2
+        dest: ~/orders/txt
+      tags:
+        - orders
+
+    - name: "Deploy the cargo manifest"
+      template:
+        src: /home/student/ans/templates/cargo_manifest.txt.j2
+        dest: ~/cargo_manifest.txt
+      tags:
+        - cargo
+        - ship_prep
+
+    - name: "Install navigation charts"
+      template:
+        src: /home/student/ans/templates/navigation_charts.cfg.j2
+        dest: ~/navigation_charts.cfg
+      tags:
+        - nav
+        - ship_prep

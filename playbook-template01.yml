@@ -1,0 +1,16 @@
+---
+- name: Using template module to create a finished file
+  hosts: planetexpress
+
+  vars:
+          ship_name: pequod
+          type_of_ship: whaling ship
+          engine_tech: sails
+          type_of_fuel: wind
+
+  tasks:
+          - name: Use template to render a finished file
+            template:
+                    src: templates/ship.cfg.j2
+                    dest: ~/ship.cfg
+
