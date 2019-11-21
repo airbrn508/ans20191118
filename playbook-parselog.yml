@@ -1,0 +1,50 @@
+---
+- name: create a playbook that parses logs and sends emails on hits
+  hosts: planetexpress
+
+  vars:
+    logtosearch: "/var/log/"
+    storeloc: "~/logtosearch"
+
+  tasks:
+ 
+  ## parse log file on target machines
+  ## log location /var/log/bootstrap.log
+  ## if match on WARNING save that line
+    - name: Parse log file
+      find:
+        contains: "^[wW][aA][rR][nN][iI][nN][gG].*"
+        paths: "{{ logtosearch }}"
+      register: results
+      become: yes
+
+    - name: What the heck is results???
+      debug:
+        var: results
+ 
+    - name: create directory on controller to store files to send in email
+      file:
+        path: "{{ storeloc }}"
+        state: directory
+      delegate_to: localhost
+      run_once: yes
+
+    - name: fetch files
+      fetch:
+        src: "{{ item.path }}"
+        dest: "{{ storeloc }}"
+      loop: "{{ results.files }}"
+
+    - name: archive our results
+      archive:
+        path: "{{ storeloc }}*"
+        dest: "{{ storeloc }}filetoemail.gz"
+        format: gz
+      delegate_to: localhost
+      run_once: yes
+
+  #
+  ## write out saved lines to file
+  ## copy module would do this ...
+  #
+  ## send email with content of created file

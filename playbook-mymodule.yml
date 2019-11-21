@@ -1,0 +1,18 @@
+---
+- name: Calling my own python module
+  hosts: localhost
+
+  vars:
+    vname: = "fail me"
+    vnew: = true
+
+  tasks:
+  - name: My Module
+    my_test:
+      name: "{{ vname }}"
+      new: "{{ vnew }}"
+    register: results
+
+  - name: What the heck is results???
+    debug:
+      var: results

@@ -1,0 +1,14 @@
+---
+- name: Copying files from controller to hosts
+  hosts: localhost
+  gather_facts: yes
+
+  tasks:
+    - name: Ensure that free space on {{ mountname }} is grater than 30%
+      assert:
+        that: mount.size_available > mount.size_total|float * 0.3
+        msg: disk space has reached 70% threshold
+      vars:
+        mount: "{{ ansible_mounts | selectattr('mount','equalto',mountname) | list | first }}"
+
+

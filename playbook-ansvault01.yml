@@ -1,0 +1,30 @@
+---
+- hosts: localhost
+
+  vars:
+    mysupersecret: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          39613361386461323565653733653462336465373230656364376662646466663565633964316633
+          3364663030303736333565313365353031363034336430370a316234313264323832333664393263
+          66346137383231343461356639666330643164623036343830623239333031373538363338356265
+          6632393433393533300a343436386564316332616564313562656165626365376232646334336635
+          6330
+
+  vars_files:
+    - vars/mypasswords01.yml
+
+  tasks:
+    - name: Print to the screen
+      debug:
+        msg: "This is your secret playbook. You and you alone must retain control of it. Your mission, Jim, should you choose to accept it. Is to first encrypt, then run thos playbook (while it is encrypted). This message will self-destruct in 5 seconds."
+
+    - name: print encrypted vars out to screen
+      debug:
+        msg:
+          - "{{ datacenter }}"
+          - "{{ password }}"
+          - "{{ password2 }}"
+
+    - name: Print out mysupersecret
+      debug:
+        msg: "{{ mysupersecret }}"
