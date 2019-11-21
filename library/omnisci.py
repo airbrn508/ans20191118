@@ -64,8 +64,12 @@ EXAMPLES = '''
 '''
 
 RETURN = '''
-original_message:
-    description: The original group param that was passed in
+entered_platform:
+    description: The entered platform param that was passed in
+    type: str
+    returned: always
+entered_group_value:
+    description: The entered group param that was passed in
     type: str
     returned: always
 message:
@@ -91,7 +95,8 @@ def run_module():
     # for consumption, for example, in a subsequent task
     result = dict(
         changed=False,
-        original_message='',
+        entered_platform_value='',
+        entered_group_value='',
         message=''
     )
 
@@ -112,10 +117,10 @@ def run_module():
 
     # manipulate or modify the state as needed (this is going to be the
     # part where your module will do what it needs to do)
-    result['original_message'] = module.params['platform']
+    result['entered_platform_value'] = module.params['platform']
     result['message'] = 'goodbye'
 
-    result['original_message'] = module.params['group']
+    result['entered_group_value'] = module.params['group']
     result['message'] = 'goodbye'
 
     # use whatever logic you need to determine whether or not this module
@@ -126,12 +131,13 @@ def run_module():
     # during the execution of the module, if there is an exception or a
     # conditional state that effectively causes a failure, run
     # AnsibleModule.fail_json() to pass in the message and the result
-    if module.params['platform'] != 'spc':
-        module.fail_json(msg='You requested this to fail', **result)
+    platforms = ['simota','spc']
+    if module.params['platform'] not in platforms:
+        module.fail_json(msg='Invalid platform was entered', **result)
 
     groups = ['devif','nrb','rdcs','wifi']
     if module.params['group'] not in groups:
-        module.fail_json(msg='You requested this to fail', **result)
+        module.fail_json(msg='Invalid group was entered', **result)
 
     # in the event of a successful module execution, you will want to
     # simple AnsibleModule.exit_json(), passing the key/value results

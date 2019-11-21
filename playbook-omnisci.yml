@@ -4,7 +4,8 @@
 
   vars:
     platform: "spc"
-    group: no
+    group: nrb
+    new: yes
 
   tasks:
   - name: Call OmniSci
