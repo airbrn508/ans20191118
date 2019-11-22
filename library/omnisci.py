@@ -4,19 +4,24 @@
 # Copyright: (c) 2019, Chris Marquardt <chris.marquardt2@vzw.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+# Create C&D configuration or append
+# Need: dbname, tablename, colnames, datafile, uid, pwd
+#
+
+from __future__ import absolute_import, division, print_function
+__metaclass = type
+
 ANSIBLE_METADATA = {
     'metadata_version': '1.1',
     'status': ['preview'],
-    'supported_by': 'marqch1'
+    'supported_by': 'community'
 }
 
 DOCUMENTATION = '''
 ---
 module: omnisci
-
-short_description: This is my test omnisci module
-
 version_added: "1.0"
+short_description: This is my test omnisci module
 
 description:
     - "This is my longer description explaining my test module"
@@ -78,7 +83,18 @@ message:
     returned: always
 '''
 
+import traceback
+
 from ansible.module_utils.basic import AnsibleModule
+
+# The OmnisciModule object
+module = None
+
+
+class AnsibleModuleError(Exception):
+    def __inti__(self, results):
+        self.results = results
+
 
 def run_module():
     # define available arguments/parameters a user can pass to the module

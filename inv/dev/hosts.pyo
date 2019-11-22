@@ -1,0 +1,10 @@
+[raiders]
+indy  ansible_host=10.10.2.2  ansible_user=indy  ansible_ssh_pass=alta3
+
+[planetexpress]
+bender      ansible_host=10.10.2.3  ansible_user=bender
+fry         ansible_host=10.10.2.4  ansible_user=fry
+zoidberg    ansible_host=10.10.2.5  ansible_user=zoidberg
+farnsworth  ansible_host=10.10.2.6  ansible_user=farnsworth dnsip=9.9.9.9
+[planetexpress:vars]
+dnsip=8.8.8.8
